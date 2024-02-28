@@ -8,6 +8,13 @@ const {prompt1} = require('../mockData/prompts')
 dotenv.config();
 const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
 
+
+/**
+ * 
+ * Gets tweets mentioning the company given as a query parameter
+ * Sends these tweets to gpt-4 using OpenAI API with a prompt describing its task to analyze public sentiment and determine the outlook for the stock price (Places extra weighting on tweets from reputable sources (high follower counts, professional account descriptions))
+ * Returns AI response as a JSON HTTP response
+ */
 const getSentimentForSearch = async (req, res) => {
 
     console.log("=> Getting sentiment for company " + req.query.company)
@@ -48,14 +55,18 @@ const getSentimentForSearch = async (req, res) => {
     }
 }
 
+/**
+ * 
+ * Gets tweets returned by searchMarketTweets (tweets containing #IPO, or #FinTech or #TechStartups, ... etc.) 
+ * Sends these tweets to gpt-4 using OpenAI API with a prompt describing its task to find rising companies with high potential based on positive public sentiment. (Places extra weighting on tweets from reputable sources (high follower counts, professional account descriptions))
+ * Returns AI response as a JSON HTTP response
+ */
 const getBreakoutCompanies = async (req, res) => {
 
     console.log("=> Getting breakout companies")
 
     const allTweets = await searchMarketTweets();
     const aiTweetsInput = JSON.stringify(allTweets);
-
-    // console.log(aiTweetsInput);
 
     try{
         const aiResponse = await openai.chat.completions.create({
@@ -72,11 +83,6 @@ const getBreakoutCompanies = async (req, res) => {
             ]
         });
 
-        // console.log("Breakout companies: " + aiResponse.choices[0])
-        // res.json({
-        //     ai_response: aiResponse.choices[0]
-        // });
-        // console.log(aiResponse.choices[0].message.content)
         return aiResponse.choices[0].message.content;
     }
     catch (error){
@@ -85,6 +91,10 @@ const getBreakoutCompanies = async (req, res) => {
     }
 }
 
+/**
+ * 
+ * Pulls trending / breakout company data from the database and sends it as an HTTP response
+ */
 const pullTrendingFromDB = async (req, res) => {
     try {
         console.log("=> Pulling trending companies from DB")
@@ -111,11 +121,13 @@ const getFinancialInfo = async (req, res) => {
     const financialData = await yahooFinance.quote(ticker);
 
     /**
-     * Get historical price data for last 7 days using ticker 
+     * Get historical price data for last 3 months using ticker 
      */
     var currentDate = new Date();
-    // Subtract 7 days (one week) from the current date
+
+    // Subtract three months from date
     currentDate.setMonth(currentDate.getMonth() - 3);
+
     // Format the date as 'YYYY-MM-DD'
     var formattedDate = currentDate.toISOString().slice(0, 10);
 

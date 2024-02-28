@@ -10,6 +10,11 @@ dotenv.config();
 const rettiwt = new Rettiwt({ apiKey: process.env.RETTIWT_API_KEY });
 
 const hashtags = ['#StockMarket', '#Investing', '#FinTech', '#TechStartups', '#EmergingMarkets', '#IPO', '#StockPicks', '#Upgrades']
+
+/**
+ * 
+ * Pull tweets containing relevant hashtags, add tweet information to allTweets array and return it
+ */
 const searchMarketTweets = async () => {
 
     console.log("=> Searching tweets containing relevant hashtags");
@@ -38,6 +43,10 @@ const searchMarketTweets = async () => {
 
 }
 
+/**
+ * 
+ * Pull tweets about a specific company, add tweet information to allTweets array, return it.
+ */
 const searchSpecificCompanyTweets = async (companyName) => {
     console.log("=> Searching tweets containing company information");
 
