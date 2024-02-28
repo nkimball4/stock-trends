@@ -1,0 +1,45 @@
+/* FinancialDashboard.css */
+
+.financial-dashboard {
+    backdrop-filter: blur(9px);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    width: 90%;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+    // overflow-x: hidden;
+}
+
+/* Media query for screens smaller than 600px (typical mobile screens) */
+
+  .financial-dashboard h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  .financial-dashboard ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .financial-dashboard li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .financial-dashboard li:last-child {
+    border-bottom: none;
+  }
+  
+  .financial-dashboard li span {
+    font-weight: bold;
+    color: #dfdfdf;
+  }
+  
+  .financial-dashboard li .value {
+    float: right;
+    color: #d4d4d4;
+  }
+  

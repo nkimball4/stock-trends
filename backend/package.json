@@ -4,19 +4,23 @@
   "description": "Server for stock trends application",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js",
+    "start": "nodemon --delay 500ms src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Nathan Kimball",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
+    "mongodb": "4.1",
+    "mongoose": "^8.2.0",
     "node-cron": "^3.0.3",
     "nodemon": "^3.1.0",
     "openai": "^4.28.0",
     "rettiwt-api": "^2.5.2",
     "twitter": "^1.7.1",
-    "twitter-api-v2": "^1.16.0"
+    "twitter-api-v2": "^1.16.0",
+    "yahoo-finance2": "^2.9.1"
   }
 }
