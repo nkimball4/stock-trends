@@ -6,7 +6,6 @@ const MONGO_URI = `mongodb+srv://${user}:${password}@cluster0.k066wkd.mongodb.ne
 
 const connectDB = async () => {
     try{
-        // console.log(process.env.MONGO_URI)
         const conn = await mongoose.connect(MONGO_URI)
 
         console.log("MongoDB Connected: ", conn.connection.host)

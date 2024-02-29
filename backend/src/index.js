@@ -10,11 +10,18 @@ const {searchMarketTweets} = require('./controllers/twitterController')
 
 const PORT = 8000;
 
+/**
+ * Server initialization
+ */
+
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors()); // Enable cross origin resource sharing
 connectDB();
 
+/**
+ * Set up endpoints using imported router
+ */
 app.use('/api', routes)
 app.get('/api/tweets', async (req, res) => {
     const response = await searchMarketTweets();
@@ -25,7 +32,16 @@ app.get('/api/tweets', async (req, res) => {
 app.listen(PORT, async () => {
     console.log(`=======> Server started on port ${PORT} <=======`);
 
-    cron.schedule('16 * * * *', async () => {
+    /**
+     * Cron job: every hour...
+     * 
+     * Get the trending companies
+     * 
+     * Move previous companies to a pastCompanies collection (so that we can track the performance of the stock recommendations)
+     * 
+     * Flush the current company collection, add trending companies to company collection
+     */
+    cron.schedule('13 * * * *', async () => {
 
         const breakoutResponse = await getBreakoutCompanies();
         
@@ -36,12 +52,15 @@ app.listen(PORT, async () => {
                 try {
                     console.log(`Moving company ${company.company} to PastCompany collection`);
                     const pastCompany = new PastCompany(company.toObject());
-                    await pastCompany.save(); 
+
+                    await pastCompany.save();
+
                     console.log(`Company ${company.company} moved to PastCompany collection.`);
                 } catch (error) {
                     console.error(`Error moving company ${company.company} to PastCompany collection: ${error.message}`);
                 }
             }
+            /* Delete current companies now that they have been moved to pastCompanies */
             await Company.deleteMany({})
             const companiesArr = JSON.parse(breakoutResponse)
     
