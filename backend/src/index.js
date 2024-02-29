@@ -52,7 +52,9 @@ app.listen(PORT, async () => {
                 try {
                     console.log(`Moving company ${company.company} to PastCompany collection`);
                     const pastCompany = new PastCompany(company.toObject());
+
                     await pastCompany.save();
+
                     console.log(`Company ${company.company} moved to PastCompany collection.`);
                 } catch (error) {
                     console.error(`Error moving company ${company.company} to PastCompany collection: ${error.message}`);
