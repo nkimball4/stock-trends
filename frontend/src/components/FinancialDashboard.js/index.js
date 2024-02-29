@@ -149,7 +149,7 @@ const FinancialDashboard = ({ financialData, historicalPriceData }) => {
           setTicksCount(5);
         }
         else{
-          containerWidth = chartRef.current.clientWidth*2;
+          containerWidth = chartRef.current.clientWidth*2.4;
           setTicksCount(12);
         }
         console.log(window.innerWidth)
