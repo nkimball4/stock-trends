@@ -25,7 +25,7 @@ app.get('/api/tweets', async (req, res) => {
 app.listen(PORT, async () => {
     console.log(`=======> Server started on port ${PORT} <=======`);
 
-    cron.schedule('13 * * * *', async () => {
+    cron.schedule('16 * * * *', async () => {
 
         const breakoutResponse = await getBreakoutCompanies();
         

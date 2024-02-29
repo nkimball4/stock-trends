@@ -50,3 +50,19 @@
   list-style-type: none;
   display: flex;
 }
+
+@media screen and (max-width: 700px) {
+
+  .search-form input[type="text"]{
+    width: 150px;
+
+    &.hover{
+      width: 175;
+    }
+  }
+
+  .search-form input[type="text"]:focus {
+    width: 175px;
+  }
+
+}

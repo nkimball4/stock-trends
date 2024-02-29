@@ -117,12 +117,43 @@ import './index.scss';
 const FinancialDashboard = ({ financialData, historicalPriceData }) => {
   const chartRef = useRef();
   const [chartWidth, setChartWidth] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [ticksCount, setTicksCount] = useState(5);
+
+  useEffect(() => {
+
+    const checkIsMobile = () => {
+      if (window.innerWidth <= 768){
+        setIsMobile(true);
+      }
+      else{
+        setIsMobile(false);
+      }
+    }
+
+    window.addEventListener('resize', checkIsMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkIsMobile);
+    };
+  }, [])
 
   useEffect(() => {
     if (historicalPriceData) {
       const updateDimensions = () => {
-        const containerWidth = window.innerWidth * 0.90;
-        const margin = { top: 20, right: 30, bottom: 30, left: 40 };
+        
+
+        let containerWidth;
+        if (window.innerWidth <= 768){
+          containerWidth = window.innerWidth * 0.90;
+          setTicksCount(5);
+        }
+        else{
+          containerWidth = chartRef.current.clientWidth*2;
+          setTicksCount(12);
+        }
+        console.log(window.innerWidth)
+        const margin = { top: 20, right: 60, bottom: 30, left: 40 };
         setChartWidth(containerWidth - margin.left - margin.right);
       };
 
@@ -143,6 +174,8 @@ const FinancialDashboard = ({ financialData, historicalPriceData }) => {
   }, [historicalPriceData, chartWidth]);
 
   const drawChart = () => {
+    console.log("isMobile: " + isMobile)
+
     d3.select(chartRef.current).selectAll("*").remove();
 
     const margin = { top: 20, right: 10, bottom: 30, left: 40 };
@@ -178,8 +211,10 @@ const FinancialDashboard = ({ financialData, historicalPriceData }) => {
         .attr("stroke-width", 1.5)
         .attr("d", line);
 
-    let ticksCount = Math.ceil(chartWidth / 100); // Adjust the divisor as needed
-    ticksCount = Math.max(ticksCount, 2); // Ensure a minimum of 2 ticks
+    // let ticksCount = Math.ceil(chartWidth / 10);
+    let numTicks = ticksCount;
+
+
     svg.append("g")
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(x)
@@ -189,7 +224,7 @@ const FinancialDashboard = ({ financialData, historicalPriceData }) => {
             }
             return null;
         })
-            .ticks(ticksCount)
+            .ticks(numTicks)
         );
 
     svg.append("g")

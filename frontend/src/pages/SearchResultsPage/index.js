@@ -93,33 +93,33 @@ const SearchResultPage = () => {
         setLoadingFinancials(true);
         const fetchCompanyData = async () => {
             try {
-                // const response = await fetch(`http://localhost:8000/api/search-company?company=${queryCompany}`);
-                // if (!response.ok) {
-                //     throw new Error('Failed to fetch company data');
-                // }
-                // const data = await response.json();
-                // setSearchData(JSON.parse(data.ai_response.message.content));
+                const response = await fetch(`http://localhost:8000/api/search-company?company=${queryCompany}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch company data');
+                }
+                const data = await response.json();
+                setSearchData(JSON.parse(data.ai_response.message.content));
 
                 /**
                  * Mocking
                  */
 
                 // setSearchData(mockSearchData)
-                setSearchData(mockSearchData2.ai_response.message.content)
+                // setSearchData(mockSearchData2.ai_response.message.content)
                 setLoadingAI(false);
             } catch (error) {
                 console.error('Error fetching company data:', error);
             }
 
             try {
-                // const response = await fetch(`http://localhost:8000/api/get-company-financial-info?company=${queryCompany}`);
-                // if (!response.ok) {
-                //     throw new Error('Failed to fetch financial data for company');
-                // }
-                // const data = await response.json();
-                // console.log("data: " + data)
-                // setFinancialData(data.financialData);
-                // setHistoricalPriceData(data.historicalPriceData)
+                const response = await fetch(`http://localhost:8000/api/get-company-financial-info?company=${queryCompany}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch financial data for company');
+                }
+                const data = await response.json();
+                console.log("data: " + data)
+                setFinancialData(data.financialData);
+                setHistoricalPriceData(data.historicalPriceData)
                 
                 /**
                  * Mocking
@@ -129,8 +129,8 @@ const SearchResultPage = () => {
                 // setHistoricalPriceData(mockHistoricalPriceData);
                 // setFinancialData(mockFinancialData);
 
-                setHistoricalPriceData(mockFinancialInfo.historicalPriceData)
-                setFinancialData(mockFinancialInfo.financialData)
+                // setHistoricalPriceData(mockFinancialInfo.historicalPriceData)
+                // setFinancialData(mockFinancialInfo.financialData)
                 setLoadingFinancials(false);
             } catch (error) {
                 console.error('Error fetching company data:', error);
