@@ -136,7 +136,8 @@ const getFinancialInfo = async (req, res) => {
 
     res.json({
         financialData: financialData,
-        historicalPriceData: historicalPriceData
+        historicalPriceData: historicalPriceData,
+        sector: searchYahoo.quotes[0].sector
     })
 }
 
