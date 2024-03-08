@@ -1,21 +1,92 @@
 const mongoose = require('mongoose');
 
-// Define schema for positive tweets
-const PositiveTweetSchema = new mongoose.Schema({
+const positiveTweetSchema = new mongoose.Schema({
     user: String,
     userDescription: String,
-    userFollowerCount: String,
+    userFollowerCount: Number,
     text: String
 });
 
-// Define schema for company
-const CompanySchema = new mongoose.Schema({
-    company: String,
-    positive_tweets: [PositiveTweetSchema],
-    recommendation: String,
-    confidence_rate: Number
+const historicalPriceDataSchema = new mongoose.Schema({
+    date: Date,
+    open: Number,
+    high: Number,
+    low: Number,
+    close: Number,
+    adjClose: Number,
+    volume: Number
 });
 
-// Create and export the Company model
-const Company = mongoose.model('Company', CompanySchema);
+const yahooInfoSchema = new mongoose.Schema({
+    financialData: {
+        language: String,
+        region: String,
+        quoteType: String,
+        typeDisp: String,
+        quoteSourceName: String,
+        triggerable: Boolean,
+        customPriceAlertConfidence: String,
+        contractSymbol: Boolean,
+        headSymbolAsString: String,
+        currency: String,
+        marketState: String,
+        regularMarketChangePercent: Number,
+        regularMarketPrice: Number,
+        underlyingSymbol: String,
+        underlyingExchangeSymbol: String,
+        exchange: String,
+        shortName: String,
+        exchangeTimezoneName: String,
+        exchangeTimezoneShortName: String,
+        gmtOffSetMilliseconds: Number,
+        market: String,
+        esgPopulated: Boolean,
+        hasPrePostMarketData: Boolean,
+        priceHint: Number,
+        regularMarketChange: Number,
+        regularMarketTime: Date,
+        regularMarketDayHigh: Number,
+        regularMarketDayRange: {
+            low: Number,
+            high: Number
+        },
+        regularMarketDayLow: Number,
+        regularMarketVolume: Number,
+        regularMarketPreviousClose: Number,
+        bid: Number,
+        ask: Number,
+        fullExchangeName: String,
+        regularMarketOpen: Number,
+        fiftyTwoWeekLowChange: Number,
+        fiftyTwoWeekLowChangePercent: Number,
+        fiftyTwoWeekRange: {
+            low: Number,
+            high: Number
+        },
+        fiftyTwoWeekHighChange: Number,
+        fiftyTwoWeekHighChangePercent: Number,
+        fiftyTwoWeekLow: Number,
+        fiftyTwoWeekHigh: Number,
+        openInterest: Number,
+        expireDate: Date,
+        expireIsoDate: Number,
+        sourceInterval: Number,
+        exchangeDataDelayedBy: Number,
+        tradeable: Boolean,
+        cryptoTradeable: Boolean,
+        symbol: String
+    },
+    historicalPriceData: [historicalPriceDataSchema]
+});
+
+const CompanySchema = new mongoose.Schema({
+    company: String,
+    positive_tweets: [positiveTweetSchema],
+    recommendation: String,
+    confidence_rate: Number,
+    yahooInfo: yahooInfoSchema
+});
+
+const Company = mongoose.model('companies', CompanySchema);
+
 module.exports = Company;

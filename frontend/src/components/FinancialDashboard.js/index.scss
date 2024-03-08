@@ -1,13 +1,14 @@
 /* FinancialDashboard.css */
 
 .financial-dashboard {
-    backdrop-filter: blur(9px);
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    width: 90%;
-    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
-    // overflow-x: hidden;
+  backdrop-filter: blur(9px);
+  // border: 1px solid #ccc;
+  margin-top: 8%;
+  border-radius: 5px;
+  padding: 20px;
+  width: 90%;
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+  // overflow-x: hidden;
 }
 
 /* Media query for screens smaller than 600px (typical mobile screens) */

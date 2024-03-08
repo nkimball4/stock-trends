@@ -33,68 +33,103 @@ const SearchResultPage = () => {
     const [historicalPriceData, setHistoricalPriceData] = useState([])
     const [loadingAI, setLoadingAI] = useState(true);
     const [loadingFinancials, setLoadingFinancials] = useState(true);
-    // const [queryCompany, setQueryCompany] = useState('');
     const location = useLocation();
-    // const isMounted = useRef(false);
-    const searchParams = new URLSearchParams(location.search);
-    const queryCompany = searchParams.get('company');
 
-    // useEffect(() => {
-    //     if (isMounted.current) {
-    //         if (company !== queryCompany) {
-    //             setQueryCompany(company);
-    //         }
-    //     } else {
-    //         isMounted.current = true;
-    //     }
-    // }, [location.search]);
+    let searchParams = new URLSearchParams(location.search);
+    let companyParam = searchParams.get('company');
+    const [queryCompany, setQueryCompany] = useState(companyParam);
+
+    useEffect(() => {
+        console.log("running use effect")
+        let searchParams = new URLSearchParams(location.search);
+        let companyParam = searchParams.get('company');
+        if (companyParam !== queryCompany){
+            console.log("companyParam changed, updating queryCompany")
+            setQueryCompany(companyParam)
+        }
+        else{
+            console.log("companyParams match, do nothing")
+        }
+    }, [location.search, queryCompany])
+    
 
     useEffect(() => {
         setLoadingAI(true);
         setLoadingFinancials(true);
-        const fetchCompanyData = async () => {
-            try {
-                const response = await fetch(`http://localhost:8000/api/search-company?company=${queryCompany}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch company data');
-                }
-                const data = await response.json();
-                setSearchData(JSON.parse(data.ai_response.message.content));
+        const cachedSearchData = JSON.parse(localStorage.getItem('searchData'));
+        const cachedHistoricalPriceData = localStorage.getItem('historicalPriceData');
+        const cachedFinancialData = localStorage.getItem('financialData');
 
-                /**
-                 * Mocking
-                 */
+        console.log("type: " + typeof(cachedSearchData))
+        console.log("type: " + typeof(cachedHistoricalPriceData))
+        console.log("type: " + typeof(cachedFinancialData))
 
-                // setSearchData(mockSearchData)
+        if ((cachedSearchData && cachedHistoricalPriceData && cachedFinancialData) && queryCompany === cachedFinancialData.symbol){
+            const convertCachedDataToJSON = async () => {
+                setSearchData(JSON.parse(cachedSearchData));
+                setHistoricalPriceData(JSON.parse(cachedHistoricalPriceData));
+                setFinancialData(JSON.parse(cachedFinancialData));
                 setLoadingAI(false);
-            } catch (error) {
-                console.error('Error fetching company data:', error);
-            }
-
-            try {
-                const response = await fetch(`http://localhost:8000/api/get-company-financial-info?company=${queryCompany}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch financial data for company');
-                }
-                const data = await response.json();
-                console.log("data: " + data)
-                setFinancialData(data.financialData);
-                setHistoricalPriceData(data.historicalPriceData)
-                
-                /**
-                 * Mocking
-                 */
-
-                //
-                // setHistoricalPriceData(mockHistoricalPriceData);
-                // setFinancialData(mockFinancialData);
                 setLoadingFinancials(false);
-            } catch (error) {
-                console.error('Error fetching company data:', error);
             }
-        };
+            convertCachedDataToJSON()
+        }
+        else{
+            const fetchCompanyData = async () => {
+                let data;
+                try {
+                    const response = await fetch(`http://localhost:8000/api/search-company?company=${queryCompany}`);
+                    if (!response.ok) {
+                        console.log(JSON.stringify(response));
+                        throw new Error('Failed to fetch company data');
+                    }
+                    data = await response.json();
+                    console.log(JSON.stringify(data));
+                    setSearchData(JSON.parse(data.ai_response));
+                    setFinancialData(JSON.parse(data.financialData));
+                    setHistoricalPriceData(JSON.parse(data.historicalPriceData))
 
-        fetchCompanyData();
+                    localStorage.setItem('searchData', JSON.stringify(data.ai_response));
+                    localStorage.setItem('financialData', JSON.stringify(data.financialData));
+                    localStorage.setItem('historicalPriceData', JSON.stringify(data.historicalPriceData));
+                    /**
+                     * Mocking
+                     */
+    
+                    // setSearchData(mockSearchData)
+                    setLoadingAI(false);
+                    setLoadingFinancials(false)
+                } catch (error) {
+                    console.error('Error fetching company data:', error);
+                }
+    
+                // try {
+                //     const response = await fetch(`http://localhost:8000/api/get-company-financial-info?company=${queryCompany}`);
+                //     if (!response.ok) {
+                //         throw new Error('Failed to fetch financial data for company');
+                //     }
+                //     const data = await response.json();
+                //     console.log("data: " + data)
+                //     setFinancialData(data.financialData);
+                //     setHistoricalPriceData(data.historicalPriceData)
+                //     localStorage.setItem('financialData', JSON.stringify(data.financialData));
+                //     localStorage.setItem('historicalPriceData', JSON.stringify(data.historicalPriceData));
+                //     /**
+                //      * Mocking
+                //      */
+    
+                //     //
+                //     // setHistoricalPriceData(mockHistoricalPriceData);
+                //     // setFinancialData(mockFinancialData);
+                //     setLoadingFinancials(false);
+                // } catch (error) {
+                //     console.error('Error fetching company data:', error);
+                // }
+            };
+    
+            fetchCompanyData();
+        }
+
     }, [queryCompany]);
 
     console.log(loadingAI, loadingFinancials)
@@ -160,9 +195,6 @@ const SearchResultPage = () => {
                                 <p>{searchData.confidence_rate}%</p>
                             </div>
                             <div style={{ flex: 1 }}>
-                                {() => {
-                                    console.log("data: " + mockHistoricalPriceData)
-                                }}
                                 <FinancialDashboard financialData={financialData} historicalPriceData={historicalPriceData}/>
                             </div>
                         </div>

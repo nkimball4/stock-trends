@@ -5,6 +5,7 @@ const routes = require('./routes/routes')
 const connectDB = require('./db/connectDB')
 const Company = require('./db/models/companyEntryModel')
 const PastCompany = require('./db/models/pastCompanyEntryModel')
+const SearchCompany = require('./db/models/searchCompanyEntryModel');
 const {getBreakoutCompanies} = require('./controllers/searchController')
 const {searchMarketTweets} = require('./controllers/twitterController')
 
@@ -41,10 +42,10 @@ app.listen(PORT, async () => {
      * 
      * Flush the current company collection, add trending companies to company collection
      */
-    cron.schedule('13 * * * *', async () => {
+    cron.schedule('6 * * * *', async () => {
 
         const breakoutResponse = await getBreakoutCompanies();
-        
+
         if (breakoutResponse){
             const companies = await Company.find({});
 
@@ -59,12 +60,15 @@ app.listen(PORT, async () => {
                 }
             }
             /* Delete current companies now that they have been moved to pastCompanies */
+            console.log("=> Flushing company DB")
             await Company.deleteMany({})
-            const companiesArr = JSON.parse(breakoutResponse)
-    
+            console.log("=> Parsing response")
+            const companiesArr = breakoutResponse
+            console.log("=> Saving companies")
             for (const company of companiesArr) {
                 try {
                     const newCompany = new Company(company);
+                    console.log("=> Saving " + company)
                     await newCompany.save();
                     console.log(`Company ${company.company} added to the database.`);
                 } catch (error) {
@@ -72,6 +76,19 @@ app.listen(PORT, async () => {
                 }
             }
         }
+    });
+
+
+    // /**
+    //  * Flush the cache
+    //  */
+    cron.schedule('*/15 * * * *', async () => {
+        const fifteenMinutesAgo = new Date(Date.now() - (15 * 60 * 1000));
+        const companies = await SearchCompany.find({ timestamp: { $lt: fifteenMinutesAgo } });
+        
+        companies.forEach(company => {
+            console.log(`Company with timestamp ${company.timestamp} is older than 15 minutes. Removing from cache`);
+        });
     });
     
 });

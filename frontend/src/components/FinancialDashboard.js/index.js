@@ -83,7 +83,7 @@ const FinancialDashboard = ({ financialData, historicalPriceData }) => {
 
   return (
     <div className="financial-dashboard">
-        <p style={{textAlign: "center", opacity: "0.8"}}>{financialData.symbol}, last 3 months</p>
+        <p style={{textAlign: "center", opacity: "0.8"}}>last 3 months</p>
         <svg ref={chartRef}></svg>
         <ul>
             <li><span>market cap:</span> <span className="value">{financialData.marketCap}</span></li>

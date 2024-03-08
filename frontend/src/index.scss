@@ -1,3 +1,5 @@
+
+
 body {
   margin: 0;
   padding: 0;
@@ -9,7 +11,8 @@ body {
 
   overflow-y: scroll;
   overflow-x: hidden;
-  // background-color: rgb(24, 24, 24);
+  background-color: black;
+  background-color: rgb(19, 19, 19);
   // background-color: rgb(0, 172, 115);
   // background-image: url('../public/images/city.jpeg');
   // background-size: cover;
@@ -20,16 +23,31 @@ code {
     monospace;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
+// /* Hide scrollbar for Chrome, Safari and Opera */
 ::-webkit-scrollbar {
-  width: 0px;
-  background: transparent; /* make scrollbar transparent */
+  width: 10px;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.body {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+// /* Hide scrollbar for IE, Edge and Firefox */
+// .body {
+//   -ms-overflow-style: none;  /* IE and Edge */
+//   scrollbar-width: none;  /* Firefox */
+// }
+
+/* Scrollbar Track */
+body::-webkit-scrollbar-track {
+  background-color: #333; /* Change the color as desired */
+}
+
+/* Scrollbar Handle */
+body::-webkit-scrollbar-thumb {
+  background-color: #666; /* Change the color as desired */
+  border-radius: 40px; /* Change the border radius as desired */
+}
+
+/* Scrollbar Handle on hover */
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #999; /* Change the color as desired */
 }
 
 ::-moz-selection { /* Code for Firefox */

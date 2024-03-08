@@ -1,21 +1,66 @@
 .navbar {
-  position: sticky;
+  position: fixed;
+  a{
+    color: white;
+    text-decoration: none;
+  }
   top: 0;
+  left: 0;
+  width: 98%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 30px 20px;
-  // background-color: rgb(255, 255, 255);
+  padding: 20px 20px;
   background: none;
-  // backdrop-filter: blur(20px);
   z-index: 2000;
   color: #000000;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.nav-container-right{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 2.5%;
+}
+
+.nav-button-wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 7%;
+}
+
+.nav-button{
+  padding: 10px 20px;
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+    border-bottom-color: white;
+}
+
+.navbar.scrolled-up {
+  top: -80px; // Move navbar off-screen when scrolling down
+}
+
+.navbar.scrolled-down {
+  background-color: rgb(19, 19, 19);
+  // a{
+  //   color: #000000;
+  // }
 }
 
 .logo {
   font-size: 2.3rem;
-  color: #ffffff;
   text-decoration: none;
+  width: 200px;
 }
 
 .search-form {
@@ -33,10 +78,15 @@
   width: 200px;
   transition: all 0.4s ease;
 
-  &:hover{
+  &:hover {
     width: 250px;
   }
 }
+
+// .search-form.scrolled-down input[type="text"] {
+//   background-color: #000000;
+//   color: #ffffff;
+// }
 
 .search-form input[type="text"]::placeholder {
   color: #868686;
@@ -44,9 +94,4 @@
 
 .search-form input[type="text"]:focus {
   width: 250px;
-}
-
-.nav-links {
-  list-style-type: none;
-  display: flex;
 }

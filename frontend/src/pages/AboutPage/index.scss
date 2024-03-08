@@ -1,0 +1,22 @@
+.about-page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(19, 19, 19);
+    color: white;
+    height: 100vh;
+    padding: 6%;
+  }
+  
+  .about-page-wrapper h1 {
+    font-size: 1.15em;
+    margin-bottom: 20px;
+  }
+  
+  .about-page-wrapper p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
