@@ -2,8 +2,10 @@ import Navbar from '../components/Navbar'
 import { Outlet } from 'react-router-dom';
 import React from 'react'
 import './index.scss'
+import { useLoggedIn } from '../contexts/loggedInContext';
 
 const Layout = () => {
+  const {loggedIn, setLoggedIn} = useLoggedIn();
   // console.log('Layout component rendered')
 
   // const [cursorX, setCursorX] = useState();
@@ -21,6 +23,12 @@ const Layout = () => {
   //     cursor.classList.remove("expand");
   //   }, 500)
   // })
+
+  
+  const cachedLoggedIn = localStorage.getItem('loggedIn')
+  if (cachedLoggedIn){
+    setLoggedIn(JSON.parse(cachedLoggedIn))
+  }
 
   return (
     <>

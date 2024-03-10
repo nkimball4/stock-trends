@@ -5,7 +5,19 @@
     scroll-behavior: smooth;
     // overflow-y: scroll;
     height: 100vh;
+    // animation: fadeIn 1s ease;
   }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .top-section-wrapper{
   scroll-snap-align: center;
@@ -23,7 +35,7 @@
 .trending-wrapper{
   scroll-snap-align: center;
   position: relative;
-  background-color: rgb(19, 19, 19);
+  background-color: rgb(15, 15, 15);
   // border: 2px solid orange;
   height: 150vh;
   width: 100vw;
@@ -36,7 +48,7 @@
 .trending-carousel{
   height: 50%;
   width: 90%;
-  background-color: rgb(19, 19, 19);
+  background-color: rgb(15, 15, 15);
   border-radius: 10px;
   display: flex;
   justify-content: center;

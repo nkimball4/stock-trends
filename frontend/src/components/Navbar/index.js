@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useLoggedIn } from '../../contexts/loggedInContext';
 import './index.scss';
 
 const Navbar = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [scrollingUp, setScrollingUp] = useState(true);
     const [scrolledDown, setScrolledDown] = useState(false);
+    const {loggedIn, setLoggedIn} = useLoggedIn();
     const navigate = useNavigate();
 
     const handleSearchChange = (e) => {
@@ -39,14 +41,25 @@ const Navbar = () => {
                 <div>chatter</div>
             </Link>
             <div className='nav-container-right'>
-                <div className='nav-button-wrapper'>
-                    <Link className='nav-button' to='/chatter/login'>
-                        <div>login</div>
-                    </Link>
-                    <Link className='nav-button' to='/chatter/about'>
-                        <div>about</div>
-                    </Link>
-                </div>
+                {loggedIn.loggedInStatus === true ? (
+                    <div className='nav-button-wrapper'>
+                        <Link className='nav-button' to='/chatter/my-watchlist'>
+                            <div>my watchlist</div>
+                        </Link>
+                        <Link className='nav-button' to='/chatter/about'>
+                            <div>about</div>
+                        </Link>
+                    </div>
+                ) : (
+                    <div className='nav-button-wrapper'>
+                        <Link className='nav-button' to='/chatter/login'>
+                            <div>login</div>
+                        </Link>
+                        <Link className='nav-button' to='/chatter/about'>
+                            <div>about</div>
+                        </Link>
+                    </div>
+                )}
                 <form className={`search-form ${scrolledDown ? 'scrolled-down' : ''}`} onSubmit={handleSubmit}>
                     <input
                         type="text"
