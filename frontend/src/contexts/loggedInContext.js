@@ -4,8 +4,12 @@ const LoggedInContext = createContext();
 
 export const useLoggedIn = () => useContext(LoggedInContext);
 
+/**
+ * 
+ * userData is meant to store companies on watchlist.
+ */
 export const LoggedInProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState({loggedInStatus: false, data: {}});
+  const [loggedIn, setLoggedIn] = useState({loginInfo: {}, userData: {}});
 
   return (
     <LoggedInContext.Provider value={{ loggedIn, setLoggedIn }}>

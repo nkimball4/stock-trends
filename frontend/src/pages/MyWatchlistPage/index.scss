@@ -1,0 +1,229 @@
+.my-watchlist-page-wrapper{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  background-color: rgb(19,19,19);
+  color: white;
+  animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sector-header {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.watchlist-company-display-wrapper{
+  height: 150%;
+  // border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  position: absolute;
+  gap: 5%;
+  top: 15%;
+  animation: fadeIn 1s ease;
+  overflow-y: scroll;
+}
+
+.sector-wrapper{
+  // border: 2px solid orange;
+}
+
+.small-watchlist-company-cards{
+  display: flex;
+  flex-direction: row;
+  gap: 6%;
+  // height: 100%;
+  overflow-x: scroll;
+  // border: 2px solid red;
+}
+
+.small-company-card {
+  color: black;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  width: 200px;
+  opacity: 0.8;
+  transform: scale(0.95);
+  // box-shadow: 0 4px 4px rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+
+  &:hover{
+    transform: scale(0.96);
+    opacity: 1;
+    box-shadow: 0 5px 5px rgba(255, 255, 255, 0.5);
+
+  }
+}
+
+.company-card h3 {
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.company-card p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.watchlist-text{
+    font-size: 1.5rem;
+}
+
+.watchlist-subtext{
+    font-size: 1.1rem;
+    opacity: 0.7;
+}
+
+// .watchlist-company-list{
+//     height: 100%;
+//     width: 95%;
+//     margin-top: 2%;
+//     // border-radius: 10px;
+//     display: flex;
+//     flex-direction: row;
+//     overflow-x: scroll;
+//     overflow-y: hidden;
+//     scroll-snap-type: x mandatory;
+//     scroll-behavior: smooth;
+//     animation: fadeIn 1s ease;
+// }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.company-info-full-wrapper{
+  position: absolute;
+  top: 3%;
+}
+
+.watchlist-company-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.back-to-watchlist-button {
+  position: absolute;
+  top: 7%;
+  left: 2%;
+  height: 1.75%;
+  background-color: #50def1a4;
+  color: #ffffffc0;
+  border: none;
+  cursor: pointer;
+  padding: 12px 20px;
+  border-radius: 100px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  font-size: 16px;
+  text-transform: lowercase;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; 
+}
+
+.back-to-watchlist-button:hover {
+  background-color: #50def160;
+  transform: scale(1.05);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+// .watchlist-company-card {
+//     // background-color: #292929;
+//     scroll-snap-align: center;
+//     width: 95%;
+//     height: 95%;
+//     display: flex;
+//     flex-direction: row;
+//     // align-items: center;
+//     justify-content: center;
+//     overflow-x: hidden;
+//     overflow-y: scroll;
+//     text-wrap: wrap;
+//     flex-shrink: 0;
+//     // border: 0.5px solid #dddddd66;
+//     border-radius: 8px;
+//     padding-top: 20px;
+//     transition: all 0.3s ease;
+//   }
+
+  // .watchlist-company-card-content{
+  //   // border: 1px solid #ccc;
+  //   backdrop-filter: blur(9px);
+  //   border-radius: 5px;
+  //   padding-right: 10px;
+  //   padding-top: 10px;
+  //   margin-top: 5%;
+  //   height: 80%;
+  //   width: 100%;
+  //   box-sizing: border-box;
+
+  // }
+
+.heading-box-watchlist{
+    width: 100vw;
+    backdrop-filter: blur(5px);
+    margin: 0; 
+    padding: 0; 
+    // border: 2px solid red;
+    // box-sizing: border-box; /* Ensure padding and border don't affect the width */
+}
+
+
+  // .watchlist-company-card:hover {
+  //   transform: scale(0.99);
+  //   // background-color: #ffffff;
+  //   // color: black;
+  //   opacity: 1;
+  // }
+  
+  // .watchlist-company-card h2 {
+  //   margin-top: 0;
+  // }
+  
+  // .watchlist-company-card p {
+  //   margin: 10px 0;
+  // }
+  
+  // .watchlist-company-card ul {
+  //   margin: 0;
+  //   padding: 0;
+  // }
+  
+  // .watchlist-company-card li {
+  //   list-style-type: none;
+  //   margin-left: 20px;
+  // }
+
+
+.watchlist-loading-container {
+    position: relative;
+    // top: 6vh;
+    // left: 7vw;
+}

@@ -1,4 +1,5 @@
 const express = require('express');
+const https = require('https');
 const cron = require('node-cron');
 const cors = require('cors');
 const routes = require('./routes/routes')
@@ -14,6 +15,7 @@ const PORT = 8000;
 /**
  * Server initialization
  */
+
 
 const app = express();
 app.use(express.json());
@@ -42,7 +44,7 @@ app.listen(PORT, async () => {
      * 
      * Flush the current company collection, add trending companies to company collection
      */
-    cron.schedule('6 * * * *', async () => {
+    cron.schedule('28 * * * *', async () => {
 
         const breakoutResponse = await getBreakoutCompanies();
 

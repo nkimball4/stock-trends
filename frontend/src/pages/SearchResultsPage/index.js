@@ -1,6 +1,8 @@
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import FinancialDashboard from '../../components/FinancialDashboard.js';
+import AddToWatchlistButton from '../../components/AddToWatchlistButton/index.js';
+import { useLoggedIn } from '../../contexts/loggedInContext.js';
 import './index.scss';
 
 const mockSearchData1 = {
@@ -70,9 +72,13 @@ const SearchResultPage = () => {
     const [searchData, setSearchData] = useState({});
     const [financialData, setFinancialData] = useState({});
     const [historicalPriceData, setHistoricalPriceData] = useState([])
+    const [companyName, setCompanyName] = useState("");
+    const [sector, setSector] = useState("")
     const [loadingAI, setLoadingAI] = useState(true);
     const [loadingFinancials, setLoadingFinancials] = useState(true);
+    const [addedToWatchlist, setAddedToWatchlist] = useState(false);
     const location = useLocation();
+    const {loggedIn, setLoggedIn} = useLoggedIn();
 
     let searchParams = new URLSearchParams(location.search);
     let companyParam = searchParams.get('company');
@@ -117,6 +123,7 @@ const SearchResultPage = () => {
             const fetchCompanyData = async () => {
                 let data;
                 try {
+                    console.log("Querying server")
                     const response = await fetch(`http://localhost:8000/api/search-company?company=${queryCompany}`);
                     if (!response.ok) {
                         console.log(JSON.stringify(response));
@@ -126,7 +133,11 @@ const SearchResultPage = () => {
                     console.log(JSON.stringify(data));
                     setSearchData(JSON.parse(data.ai_response));
                     setFinancialData(JSON.parse(data.financialData));
-                    setHistoricalPriceData(JSON.parse(data.historicalPriceData))
+                    setHistoricalPriceData(JSON.parse(data.historicalPriceData));
+                    const companyNameParsed = data.companyName.replace(/"/g, '')
+                    const sectorParsed = data.sector.replace(/"/g, '')
+                    setCompanyName(companyNameParsed);
+                    setSector(data.sector);
 
                     localStorage.setItem('searchData', JSON.stringify(data.ai_response));
                     localStorage.setItem('financialData', JSON.stringify(data.financialData));
@@ -171,8 +182,71 @@ const SearchResultPage = () => {
 
     }, [queryCompany]);
 
+    
+    useEffect(() => {
+        const checkIfCompanyOnWatchlist = async () => {
+            if (loggedIn.loginInfo){
+                let data = {
+                    userEmail: loggedIn.loginInfo.email,
+                    companyName: companyName
+                }
+                try {
+                    const response = await fetch('http://localhost:8000/api/is-company-on-watchlist', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                      });
+                    if (!response.ok) {
+                        throw new Error('Failed to check if company is on users watchlist');
+                    }
+                    data = await response.json();
+                    console.log("is company on watchlist? " + data)
+                    setAddedToWatchlist(data);
+                } catch (error) {
+                    console.error('Error checking if company is on users watchlist:', error);
+                }
+            }
+        };
+
+        checkIfCompanyOnWatchlist();
+    }, [companyName])
+
     console.log(loadingAI, loadingFinancials)
     console.log(window.innerWidth)
+
+    const addToWatchlist = async () => {
+        console.log("clicked")
+        if (loggedIn.loginInfo && JSON.stringify(loggedIn.loginInfo) !== '{}'){
+            setAddedToWatchlist(true);
+            
+            console.log("loggedIn.data:" + loggedIn.data)
+
+            const data = {
+                email: loggedIn.loginInfo.email,
+                companyData: {
+                    searchData: searchData,
+                    financialData: financialData,
+                    historicalPriceData: historicalPriceData,
+                    sector: sector
+                }
+            }
+    
+            try{
+                const respose = await fetch(`http://localhost:8000/api/add-to-watchlist`, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+            }
+            catch(error){
+                console.error(error)
+            }
+        }
+    }
 
     return (
         <div className="search-results">
@@ -209,9 +283,12 @@ const SearchResultPage = () => {
                     </div>
                 ) : (
                     <>
-                        <div className='heading-box-search' style={{backdropFilter: "blur(12px)"}}>
+                        <div className='heading-box-search' style={{marginTop: "5%", backdropFilter: "blur(12px)"}}>
                             <div className='line' style={{marginTop: "0%"}}/>
-                            <h1 style={{fontWeight: "normal", textAlign: "center", padding: "1%", opacity: "0.7"}}>{queryCompany}</h1>
+                                <div className='heading-content-wrapper'>
+                                    <AddToWatchlistButton addToWatchlist={addToWatchlist} addedToWatchlist={addedToWatchlist}/>
+                                    <h1 style={{fontWeight: "normal", textAlign: "center", padding: "1%", opacity: "0.7"}}>{companyName}</h1>
+                                </div>
                             <div className='line'/>
                         </div>
                         <div className='result-box'>

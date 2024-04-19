@@ -61,6 +61,8 @@ const scrollCarousel = (direction) => {
 const CompanyCard = ({ companyData }) => {
 //   const { company, positive_tweets, recommendation, yahooInfo, confidence_rate } = companyData;
 
+    console.log(JSON.stringify(companyData))
+
   return (
     <>
       {companyData.yahooInfo && (

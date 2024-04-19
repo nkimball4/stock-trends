@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+/**
+ * Schema for a cached company that will be stored in the DB
+ */
+
 const tweetSchema = new Schema({
     user: String,
     userDescription: String,
@@ -89,6 +93,7 @@ const searchCompanySchema = new Schema({
     ai_response: String,
     financialData: financialDataSchema,
     historicalPriceData: [historicalPriceSchema],
+    companyName: String,
     sector: String
 });
 

@@ -1,0 +1,18 @@
+.star-img{
+    // position: relative;
+    // left: 10%;
+    top: 40%;
+    height: 6vh;
+    fill: #fff;
+    width: fit-content;
+    transition: all 0.3s ease;
+    // border: 2px solid red;
+}
+
+.star-img:hover{
+    fill: #ffd900;
+}
+
+.check-img{
+    height: 5vh;
+}

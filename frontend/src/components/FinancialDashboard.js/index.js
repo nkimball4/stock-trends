@@ -241,7 +241,7 @@ const FinancialDashboard = ({ financialData, historicalPriceData }) => {
             <li><span>regular market price:</span> <span className="value">{financialData.regularMarketPrice}</span></li>
             <li><span>regular market volume:</span> <span className="value">{financialData.regularMarketVolume}</span></li>
             <li><span>previous close:</span> <span className="value">{financialData.regularMarketPreviousClose}</span></li>
-            <li><span>day's range:</span> <span className="value">{financialData.regularMarketDayRange.low} - {financialData.regularMarketDayRange.high}</span></li>
+            {/* <li><span>day's range:</span> <span className="value">{financialData.regularMarketDayRange.low} - {financialData.regularMarketDayRange.high}</span></li> */}
             <li><span>open:</span> <span className="value">{financialData.regularMarketOpen}</span></li>
             <li><span>bid:</span> <span className="value">{financialData.bid}</span></li>
             <li><span>ask:</span> <span className="value">{financialData.ask}</span></li>

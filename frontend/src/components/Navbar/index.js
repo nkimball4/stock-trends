@@ -35,13 +35,15 @@ const Navbar = () => {
         };
     }, []);
 
+    console.log("loginInfo: " + JSON.stringify(loggedIn.loginInfo)) 
+
     return (
         <div className={`navbar ${scrolledDown ? 'scrolled-down' : ''}`}>
             <Link className='logo' to='/chatter'>
                 <div>chatter</div>
             </Link>
             <div className='nav-container-right'>
-                {loggedIn.loggedInStatus === true ? (
+                {(loggedIn.loginInfo && JSON.stringify(loggedIn.loginInfo) !== '{}') ? (
                     <div className='nav-button-wrapper'>
                         <Link className='nav-button' to='/chatter/my-watchlist'>
                             <div>my watchlist</div>

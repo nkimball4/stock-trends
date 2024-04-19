@@ -1,6 +1,6 @@
 import Navbar from '../components/Navbar'
 import { Outlet } from 'react-router-dom';
-import React from 'react'
+import React, { useEffect } from 'react'
 import './index.scss'
 import { useLoggedIn } from '../contexts/loggedInContext';
 
@@ -24,11 +24,13 @@ const Layout = () => {
   //   }, 500)
   // })
 
+  useEffect(() => {
+    const cachedLoggedIn = localStorage.getItem('loggedIn')
+    if (cachedLoggedIn){
+      setLoggedIn(JSON.parse(cachedLoggedIn))
+    }
+  }, [])
   
-  const cachedLoggedIn = localStorage.getItem('loggedIn')
-  if (cachedLoggedIn){
-    setLoggedIn(JSON.parse(cachedLoggedIn))
-  }
 
   return (
     <>

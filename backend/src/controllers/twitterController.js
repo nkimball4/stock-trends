@@ -22,9 +22,15 @@ const searchMarketTweets = async () => {
     let allTweets = []
     for (const hashtag of hashtags){
         try{
+            /**
+             * Pull recent tweets containing relevant hashtags (defined in the hashtags array)
+             */
             const response = await rettiwt.tweet.search({
                 includeWords: [hashtag]
             }, 20);
+            /**
+             * For every tweet in API response, add tweet information to an array as a JS object (like JSON)
+             */
             response.list.forEach(tweet => {
                 allTweets.push({
                     user: tweet.tweetBy.userName,
@@ -38,6 +44,9 @@ const searchMarketTweets = async () => {
             console.error("Error fetching tweet: " + error)
         }
     }
+    /**
+     * Return array with tweet information
+     */
     console.log("=> Returning all tweets")
     return allTweets
 
@@ -52,9 +61,15 @@ const searchSpecificCompanyTweets = async (companyName) => {
 
     let allTweets = []
     try{
+        /**
+         * Pull recent tweets containing company name
+         */
         const response = await rettiwt.tweet.search({
             includeWords: [companyName]
         }, 20);
+        /**
+         * For every tweet in API response, add tweet information to an array as a JS object (like JSON)
+         */
         response.list.forEach(tweet => {
             allTweets.push({
                 user: tweet.tweetBy.userName,
@@ -67,6 +82,9 @@ const searchSpecificCompanyTweets = async (companyName) => {
     catch(error){
         console.error("Error fetching tweet: " + error)
     }
+    /**
+     * Return array with tweet information
+     */
     console.log("=> Returning all tweets")
     return allTweets
 }

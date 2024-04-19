@@ -12,11 +12,11 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (loggedIn.loggedInStatus) {
-      console.log("changing logged in status to " + loggedIn.loggedInStatus)
+    if (loggedIn.loginInfo && JSON.stringify(loggedIn.loginInfo) !== '{}') {
+      console.log("changing logged in email to " + loggedIn.loginInfo)
       navigate("/chatter/my-watchlist")
     }
-  }, [loggedIn.loggedInStatus]);
+  }, [loggedIn.loginInfo]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,10 +41,20 @@ const LoginPage = () => {
 
       const data = await response.json();
 
-      console.log(data);
+      console.log("userData: " + JSON.stringify(data));
 
-      setLoggedIn({ loggedInStatus: true, userData: data.userData });
-      localStorage.setItem('loggedIn', JSON.stringify({ loggedInStatus: true, userData: data.userData }));
+      setLoggedIn({ 
+        loginInfo:{
+          email: email
+        }, 
+        userData: data.userData 
+      });
+      localStorage.setItem('loggedIn', JSON.stringify({ 
+        loginInfo: {
+          email: email
+        }, 
+        userData: data.userData 
+      }));
     } catch (error) {
       console.error('Error logging in:', error);
       setLoginFailure(true);

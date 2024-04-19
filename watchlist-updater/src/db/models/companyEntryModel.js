@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 
-/**
- * Schema for a previously recommended company that will be stored in DB
- */
-
 const positiveTweetSchema = new mongoose.Schema({
     user: String,
     userDescription: String,
@@ -83,14 +79,14 @@ const yahooInfoSchema = new mongoose.Schema({
     historicalPriceData: [historicalPriceDataSchema]
 });
 
-const PastCompanySchema = new mongoose.Schema({
-    PastCompany: String,
+const CompanySchema = new mongoose.Schema({
+    company: String,
     positive_tweets: [positiveTweetSchema],
     recommendation: String,
     confidence_rate: Number,
     yahooInfo: yahooInfoSchema
 });
 
-const PastCompany = mongoose.model('pastCompanies', PastCompanySchema);
+const Company = mongoose.model('companies', CompanySchema);
 
-module.exports = PastCompany;
+module.exports = Company;

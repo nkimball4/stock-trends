@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
+const dotenv = require('dotenv');
 
-/**
- * Connects to mongo DB cluster using DB_USER and DB_PASS defined in .env
- */
+dotenv.config();
+
 const user = encodeURIComponent(process.env.DB_USER)
 const password = encodeURIComponent(process.env.DB_PASS)
 const MONGO_URI = `mongodb+srv://${user}:${password}@cluster0.k066wkd.mongodb.net/?retryWrites=true&w=majority`

@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 
-/**
- * Schema for a user that will be stored in the database
- */
-
 const loginInfoSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -111,7 +107,6 @@ const companySchema = new mongoose.Schema({
     ai_response: String,
     financialData: financialDataSchema,
     historicalPriceData: [historicalPriceSchema],
-    companyName: String,
     sector: String
 });
 

@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 
+/**
+ * Schema for a Company
+ */
+
 const positiveTweetSchema = new mongoose.Schema({
     user: String,
     userDescription: String,

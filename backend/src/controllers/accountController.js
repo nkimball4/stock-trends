@@ -47,6 +47,9 @@ const getAccount = async (req, res) => {
             if (validLogin) {
                 res.status(200).json({ userData: existingUser.userData});
             }
+            else{
+                res.status(400).json({ error: 'Invalid login' });
+            }
         }
 
     } catch (error) {
@@ -68,4 +71,77 @@ const validateLogin = async (email, password, existingUser) => {
     }
 }
 
-module.exports = {createAccount, getAccount};
+const addToWatchlist = async (req, res) => {
+    const { email, companyData } = req.body;
+    console.log("Received request to add company " + JSON.stringify(companyData.financialData.shortName) + " to " + email + "'s watchlist");
+
+    try {
+        const user = await User.findOne({'loginInfo.email': email });
+        console.log("User found");
+
+        const isCompanyAlreadyAdded = user.userData.some(data => data.companyName === companyData.financialData.shortName);
+        if (isCompanyAlreadyAdded) {
+            console.log("Company already on user's watchlist, returning");
+            return
+        }
+
+        console.log("searchData: " + JSON.stringify(companyData.searchData));
+        console.log("financialData: " + companyData.financialData);
+        console.log("historicalPriceData: " + companyData.historicalPriceData);
+        console.log("name: " + companyData.financialData.shortName);
+        console.log("sector: " + companyData.sector);
+
+        user.userData.push({
+            ai_response: JSON.stringify(companyData.searchData),
+            financialData: companyData.financialData,
+            historicalPriceData: companyData.historicalPriceData,
+            companyName: companyData.financialData.shortName,
+            sector: companyData.sector
+        });
+        await user.save();
+
+        console.log("Company added to user's watchlist");
+        res.status(200).json({ message: "Company added to user's watchlist" });
+    } catch (error) {
+        console.error("Error adding company to watchlist:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
+
+const checkIsCompanyOnUserWatchlist = async (req, res) => {
+    try{
+        let onWatchlist = false;
+        console.log("Checking if company " + req.body.companyName + " is on user " + req.body.userEmail + "'s watchlist")
+        if (req.body.userEmail){
+            const user = await User.findOne({ 'loginInfo.email': req.body.userEmail });
+            // console.log(user)
+            console.log(req.body.companyName);
+            const isCompanyAlreadyAdded = user.userData.some(data => data.companyName === req.body.companyName);
+            if (isCompanyAlreadyAdded) {
+                console.log("Company on user's watchlist");
+                onWatchlist = true;
+            }
+        }
+        console.log(onWatchlist)
+        res.status(200).json(onWatchlist);
+    }
+    catch(error){
+        console.error(error)
+    }
+}
+
+const getUserWatchlist = async (req, res) => {
+    try{
+        console.log("=> Request received to send user " + req.body.email + "'s watchlist")
+        if (req.body.userEmail){
+            const user = await User.findOne({ 'loginInfo.email': req.body.userEmail });
+            console.log(user.userData);
+            res.status(200).json(user.userData);
+        }
+    }
+    catch(error){
+        console.error(error)
+    }
+}
+
+module.exports = {createAccount, getAccount, addToWatchlist, checkIsCompanyOnUserWatchlist, getUserWatchlist};

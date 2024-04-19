@@ -1,37 +1,14 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-/**
- * Schema for a user that will be stored in the database
- */
-
-const loginInfoSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  acknowledge: {
-    type: Boolean,
-    required: true
-  }
-});
-
-const tweetSchema = new mongoose.Schema({
+const tweetSchema = new Schema({
     user: String,
     userDescription: String,
     userFollowerCount: Number,
     text: String
 });
 
-const historicalPriceSchema = new mongoose.Schema({
+const historicalPriceSchema = new Schema({
     date: Date,
     open: Number,
     high: Number,
@@ -41,14 +18,14 @@ const historicalPriceSchema = new mongoose.Schema({
     volume: Number
 });
 
-const aiResponseSchema = new mongoose.Schema({
+const aiResponseSchema = new Schema({
     reasoning: String,
     tweets: [tweetSchema],
     final_verdict: String,
     confidence_rate: Number
 });
 
-const financialDataSchema = new mongoose.Schema({
+const financialDataSchema = new Schema({
     language: String,
     region: String,
     quoteType: String,
@@ -107,19 +84,14 @@ const financialDataSchema = new mongoose.Schema({
     symbol: String
 });
 
-const companySchema = new mongoose.Schema({
+const searchCompanySchema = new Schema({
+    timestamp: { type: Date, default: Date.now },
     ai_response: String,
     financialData: financialDataSchema,
     historicalPriceData: [historicalPriceSchema],
-    companyName: String,
     sector: String
 });
 
-const userSchema = new mongoose.Schema({
-    userData: [companySchema],
-    loginInfo: loginInfoSchema
-})
+const SearchCompany = mongoose.model('searchedCompanies', searchCompanySchema);
 
-const User = mongoose.model('user', userSchema);
-
-module.exports = User;
+module.exports = SearchCompany;

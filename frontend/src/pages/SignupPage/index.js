@@ -40,8 +40,19 @@ const SignupPage = ({ handleSignup }) => {
       const data = await response.json();
 
       setAccountCreated('success')
-      setLoggedIn({loggedInStatus: true, userData: data.userData});
-      localStorage.setItem('loggedIn', JSON.stringify({ loggedInStatus: true, userData: data.userData }));
+      setLoggedIn({
+        loginInfo: {
+          email: email
+        }, 
+        userData: data.userData
+      });
+      localStorage.setItem('loggedIn', JSON.stringify({ 
+        loginInfo: {
+          email: email,
+          name: name
+        }, 
+        userData: data.userData 
+      }));
     } catch (error) {
       console.error('Error creating account:', error);
       setAccountCreated('failed')
@@ -110,7 +121,7 @@ const SignupPage = ({ handleSignup }) => {
                             checked={acknowledge}
                             onChange={(e) => setAcknowledge(e.target.checked)}
                         />
-                        by signing up you recognize that this is a tool to monitor stock momentum, and is not providing actual financial advice.
+                        I acknowledge that this tool is for monitoring stock momentum, and may not be accurate. Further research should be done before investing
                         </label>
                         <button type="submit" className='signup-button'>sign up</button>
                         <div className="login-subtext">

@@ -11,8 +11,8 @@ body {
 
   overflow-y: scroll;
   overflow-x: hidden;
-  background-color: black;
-  // background-color: rgb(19, 19, 19);
+  // background-color: black;
+  background-color: rgb(19, 19, 19);
   // background-color: rgb(0, 172, 115);
   // background-image: url('../public/images/city.jpeg');
   // background-size: cover;
@@ -51,11 +51,11 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 ::-moz-selection { /* Code for Firefox */
-  color: white;
-  background: #000000;
+  color: rgb(0, 0, 0);
+  background: #ffffff;
 }
 
 ::selection {
-  color: white;
-  background: #000000;
+  color: rgb(0, 0, 0);
+  background: #ffffff;
 }
